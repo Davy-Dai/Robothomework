@@ -1,0 +1,26 @@
+<launch>
+  <!-- 1. 启动 Gazebo 空世界 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- 2. 启动障碍物生成节点 -->
+  <node 
+    name="spawn_obstacles_node" 
+    pkg="random_map_generator" 
+    type="spawn_obstacles.py" 
+    output="screen"
+    launch-prefix="bash -c 'sleep 3; $0 $@'"  
+  />
+
+  <!-- 可选：设置参数 -->
+  <rosparam>
+    obstacle_count: 50     <!-- 障碍物数量 -->
+    x_range: [-10, 10]    <!-- X轴生成范围 -->
+    y_range: [-10, 10]    <!-- Y轴生成范围 -->
+  </rosparam>
+</launch>
